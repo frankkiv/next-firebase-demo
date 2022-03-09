@@ -1,6 +1,9 @@
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/firestore";
+// import firebase from "firebase/compat/app";
+// import "firebase/compat/auth";
+// import "firebase/compat/firestore";
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const clientCredentials = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -10,8 +13,8 @@ const clientCredentials = {
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
-if (!firebase.apps.length) {
-  firebase.initializeApp(clientCredentials);
-}
 
-export default firebase;
+const firebaseApp = initializeApp(clientCredentials);
+const firebaseAuth = getAuth(firebaseApp);
+// const firebaseStoreCollection = (getFirestore(firebaseApp), "votes");
+export { firebaseApp, firebaseAuth };
