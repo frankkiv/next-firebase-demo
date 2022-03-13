@@ -2,16 +2,28 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { firebaseApp, firebaseAuth } from "../firebase/clientApp";
+import {
+  firebaseApp,
+  firebaseAuth,
+  firebaseStoreCollection,
+} from "../firebase/clientApp";
 // Import the useAuthStateHook
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useCollection } from "react-firebase-hooks/firestore";
 
 export default function Home() {
   // Destructure user, loading, and error out of the hook.
   const [user, loading, error] = useAuthState(firebaseAuth);
-
+  const [votes, votesLoading, votesError] = useCollection(
+    firebaseStoreCollection,
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
   // console.log the current user and loading status
   console.log("Loading:", loading, "|", "Current user:", user);
+  // console.log the current votes and loading status
+  console.log("Loading:", votesLoading, "|", "Current votes:", votes.docs);
 
   return (
     <div

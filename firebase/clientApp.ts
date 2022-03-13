@@ -3,7 +3,7 @@
 // import "firebase/compat/firestore";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, collection } from "firebase/firestore";
 
 const clientCredentials = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -16,5 +16,5 @@ const clientCredentials = {
 
 const firebaseApp = initializeApp(clientCredentials);
 const firebaseAuth = getAuth(firebaseApp);
-// const firebaseStoreCollection = (getFirestore(firebaseApp), "votes");
-export { firebaseApp, firebaseAuth };
+const firebaseStoreCollection = collection(getFirestore(firebaseApp), "votes");
+export { firebaseApp, firebaseAuth, firebaseStoreCollection };
