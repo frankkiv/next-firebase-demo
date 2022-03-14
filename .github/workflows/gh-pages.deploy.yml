@@ -28,11 +28,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - name: Install packages
-      run: npm ci
+      run: npm install
     - name: Build project
       run: npm run build
-    - name: Export static files
-      run: npm run export
     - name: Add .nojekyll file
       run: touch ./out/.nojekyll
     - name: Deploy
