@@ -5,6 +5,7 @@
 import {
   firebaseAuth,
   getFirestoreByCollection,
+  setDocument,
 } from "../firebase/clientApp";
 // Import the useAuthStateHook
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -24,23 +25,47 @@ export default function Home() {
   // console.log the current votes and loading status
   console.log("Loading:", votesLoading, "|", "Current votes:", votes?.docs);
 
-    
-  if(!votesLoading && votes){
-    votes.docs.map((doc)=>console.log(doc.data()))
+  if (!votesLoading && votes) {
+    votes.docs.map((doc) => console.log(doc.data()));
   }
+
+  const addVoteDocument = async (vote: string) => {
+    setDocument(getFirestoreByCollection("votes"), user.uid, { vote });
+  };
 
   return (
     <div
       style={{
         display: "flex",
+        flexDirection: "column",
         height: "100vh",
         width: "100vw",
         alignItems: "center",
         justifyContent: "center",
+        gridGap: 8,
       }}
     >
-      <button style={{ fontSize: 32, marginRight: 8 }}>✔️🍍🍕</button>
-      <button style={{ fontSize: 32 }}>❌🍍🍕</button>
+      <div style={{ flexDirection: "row", display: "flex" }}>
+        <button
+          style={{ fontSize: 32, marginRight: 8 }}
+          onClick={() => addVoteDocument("yes")}
+        >
+          ✔️🍍🍕
+        </button>
+        <h3>
+          Pinapple Lovers:{" "}
+          {votes?.docs?.filter((doc) => doc.data().vote === "yes").length}
+        </h3>
+      </div>
+      <div style={{ flexDirection: "row", display: "flex" }}>
+        <button style={{ fontSize: 32, marginRight: 8 }} onClick={() => addVoteDocument("no")}>
+          ❌🍍🍕
+        </button>
+        <h3>
+          Pinapple Haters:{" "}
+          {votes?.docs?.filter((doc) => doc.data().vote === "no").length}
+        </h3>
+      </div>
     </div>
   );
 }

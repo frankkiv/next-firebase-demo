@@ -2,8 +2,15 @@
 // import "firebase/compat/auth";
 // import "firebase/compat/firestore";
 import { initializeApp } from "firebase/app";
-import { getAuth, GithubAuthProvider  } from "firebase/auth";
-import { getFirestore, collection } from "firebase/firestore";
+import { getAuth, GithubAuthProvider } from "firebase/auth";
+import {
+  getFirestore,
+  collection,
+  doc,
+  setDoc,
+  CollectionReference,
+  DocumentData,
+} from "firebase/firestore";
 
 const clientCredentials = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -15,10 +22,8 @@ const clientCredentials = {
 };
 
 const firebaseApp = initializeApp(clientCredentials);
-const firebaseAuth = getAuth(firebaseApp);
-const getFirestoreByCollection = (collectionName: string) =>
-  collection(getFirestore(firebaseApp), collectionName);
 
+const firebaseAuth = getAuth(firebaseApp);
 const firebaseUIConfig = {
   // Redirect to / after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
   signInSuccessUrl: "/",
@@ -26,4 +31,24 @@ const firebaseUIConfig = {
   // You could add and configure more here!
   signInOptions: [GithubAuthProvider.PROVIDER_ID],
 };
-export { firebaseApp, firebaseAuth, getFirestoreByCollection, firebaseUIConfig };
+
+const fireStore = getFirestore(firebaseApp);
+const getFirestoreByCollection = (
+  collectionName: string
+): CollectionReference<DocumentData> =>
+  collection(getFirestore(firebaseApp), collectionName);
+const setDocument = async (
+  collection: CollectionReference<DocumentData>,
+  docName: string,
+  data: any
+) => setDoc(doc(collection, docName), data);
+
+
+export {
+  firebaseApp,
+  firebaseAuth,
+  firebaseUIConfig,
+  fireStore,
+  getFirestoreByCollection,
+  setDocument
+};
