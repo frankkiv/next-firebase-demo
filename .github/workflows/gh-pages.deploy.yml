@@ -12,6 +12,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      NEXT_PUBLIC_BASE_PATH: /next-firebase-demo
+
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
