@@ -21,6 +21,8 @@ const clientCredentials = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+console.log(clientCredentials.apiKey)
+
 const firebaseApp = initializeApp(clientCredentials);
 
 const firebaseAuth = getAuth(firebaseApp);
