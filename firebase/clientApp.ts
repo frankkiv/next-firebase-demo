@@ -2,7 +2,7 @@
 // import "firebase/compat/auth";
 // import "firebase/compat/firestore";
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, GithubAuthProvider  } from "firebase/auth";
 import { getFirestore, collection } from "firebase/firestore";
 
 const clientCredentials = {
@@ -16,5 +16,14 @@ const clientCredentials = {
 
 const firebaseApp = initializeApp(clientCredentials);
 const firebaseAuth = getAuth(firebaseApp);
-const firebaseStoreCollection = collection(getFirestore(firebaseApp), "votes");
-export { firebaseApp, firebaseAuth, firebaseStoreCollection };
+const getFirestoreByCollection = (collectionName: string) =>
+  collection(getFirestore(firebaseApp), collectionName);
+
+const firebaseUIConfig = {
+  // Redirect to / after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
+  signInSuccessUrl: "/",
+  // GitHub as the only included Auth Provider.
+  // You could add and configure more here!
+  signInOptions: [GithubAuthProvider.PROVIDER_ID],
+};
+export { firebaseApp, firebaseAuth, getFirestoreByCollection, firebaseUIConfig };
