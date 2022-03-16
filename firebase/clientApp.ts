@@ -11,6 +11,7 @@ import {
   CollectionReference,
   DocumentData,
 } from "firebase/firestore";
+import { prefix } from "../libs/prefix";
 
 const clientCredentials = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -28,7 +29,7 @@ const firebaseApp = initializeApp(clientCredentials);
 const firebaseAuth = getAuth(firebaseApp);
 const firebaseUIConfig = {
   // Redirect to / after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-  signInSuccessUrl: "/",
+  signInSuccessUrl: `/${prefix}/`,
   // GitHub as the only included Auth Provider.
   // You could add and configure more here!
   signInOptions: [GithubAuthProvider.PROVIDER_ID],
